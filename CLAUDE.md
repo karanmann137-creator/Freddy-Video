@@ -16,7 +16,8 @@ The first tests were rejected because they had "nothing to do with the subject m
 3. **Something moves every beat**: each caption has a matching action on screen (valve turns, water stops).
 4. **The look follows the script's `visual_style`** ("family / twist", for example "toon-3d / night scene"). The playbook's STYLE ROTATION decides when a family is new and when a winning one returns. A returning family must get its twist (new setting, palette or camera) so it never looks like a repeat of an earlier video; a new family must look unlike everything in `src/videos`. Check the playbook's STYLE REFERENCES for looks the owner has shown us. Keep the font, captions and closing card from the kit. Never copy a competitor's look, a named brand's toys or characters, or another creator's exact video.
 5. Captions: at most 9 words on screen, heavy sans (`FONT`), top third of the frame, subject in the middle.
-6. **End on a question, not a pitch.** Close with `CommentCard`: a question the viewer wants to answer in the comments. Do not say or show the business name, the website, "post a job" or "join us" anywhere in the video. The owner wants the next step to feel like the viewer's own idea; the account name on the post is the only branding.
+6. **End on a question, not a pitch.** Close with `CommentCard`: a question or a simple "comment if this has happened to you". In helpful and entertainment videos do not say or show the business name, the website, "post a job" or "join us" anywhere; the account name on the post is the only branding.
+7. **Script types** (the script row's `format` column says which; the playbook's SCRIPT TYPES has the full rules): `helpful: ...` shows what to do, on the thing itself. `entertainment` is pure fun with no advice and no business. `comparison` is the one type that names us: first a bad experience people have with big home-service apps (shown as an experience, never naming another company or stating facts about one), then how Freddy Fix It does it, saying the name once and using only what the script says, which comes from the playbook's WHAT WE CAN CLAIM. Never add a claim, number or guarantee of your own.
 
 ## Pacing (owner's call, 2026-11-15: the 19-second cut beat the 15-second one)
 - 17 to 22 seconds total. Hook lands by about 2.5 s. Beats run 2.5 to 3.5 s; let a line breathe rather than rushing it.
@@ -34,7 +35,7 @@ The first tests were rejected because they had "nothing to do with the subject m
 
 ## Voiceover (owner asked for one consistent voice, 2026-11-15)
 - Every video is narrated by the same free local voice. Once per workspace run `tools/setup-voice.sh` (about 350 MB from GitHub).
-- Write one spoken line per beat: a natural sentence version of that beat's caption, up to about 12 words. Never say the business name or website.
+- Write one spoken line per beat: a natural sentence version of that beat's caption, up to about 12 words. Never say the website; say the business name only in a comparison video, once.
 - `python3 tools/tts.py <slug> "line 1" "line 2" ...` writes `public/voice/<slug>-N.wav` and prints each line's length in frames. Make every beat at least that long plus about 10 frames, then add `<Voice name="<slug>" starts={[...beat start frames]} />` from the kit. FrozenPipe shows the pattern.
 - Never change `VOICE` or `SPEED` in tools/tts.py for one video; the voice must match across all videos. Commit the wav files.
 - No music is mixed into the file. Do not add copyrighted songs.
