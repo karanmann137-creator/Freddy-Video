@@ -6,7 +6,7 @@ Short vertical videos (1080x1920, 30fps) for Freddy Fix It, written as code with
 - `src/kit.tsx` — brand constants and the pieces every video shares: `Caption` (words pop in), `Progress`, `EndCard`, `C` colours, `FONT`. Do not restyle these per video; they are what makes every video read as Freddy Fix It.
 - `src/videos/<Name>.tsx` — one file per video. `FrozenPipe.tsx` is the reference for quality and structure.
 - `src/Root.tsx` — register each video as a `<Composition>`.
-- `published/` — finished MP4s, named `YYYY-MM-DD-slug.mp4`. Public link: `https://raw.githubusercontent.com/karanmann137-creator/freddy-video/main/published/<file>`.
+- `published/` — finished MP4s, named `YYYY-MM-DD-slug.mp4`. Public link: `https://raw.githubusercontent.com/karanmann137-creator/Freddy-Video/main/published/<file>`.
 - `render.sh` — `./render.sh <Id> out/x.mp4` renders; `./render.sh <Id> out/f.png 120` renders one frame to check.
 
 ## What makes a video acceptable (owner's words, 2026-11-15)
@@ -24,3 +24,7 @@ The first tests were rejected because they had "nothing to do with the subject m
 - Always render 5 or 6 single frames across the video and LOOK at them before rendering the full video. Fix anything off-frame, overlapping the captions or unreadable.
 - Rendering uses the system Chrome; Remotion's own browser download is blocked in this environment.
 - No sound yet.
+
+## Publishing
+- The repo's real name is `Freddy-Video` (capital F and V); the raw link is case-sensitive.
+- Finished videos are committed straight to `main` so the public link works. Metricool copies the file when a post is scheduled (confirmed 2026-11-15).
