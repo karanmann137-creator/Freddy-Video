@@ -72,3 +72,24 @@ export const Voice: React.FC<{ name: string; starts: number[] }> = ({ name, star
 export const Sfx: React.FC<{ name: string; at: number; volume?: number }> = ({ name, at, volume = 0.5 }) => (
   <Sequence from={Math.max(0, at)} layout="none"><Audio src={staticFile(`sfx/${name}.wav`)} volume={volume} /></Sequence>
 );
+
+/** Closing card that asks the viewer something instead of selling. No business name, no web address:
+ * the owner wants the next step to feel like the viewer's own idea (2026-11-15). */
+export const CommentCard: React.FC<{ from: number; question: string; prompt?: string }> = ({ from, question, prompt = "Comment below" }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  if (frame < from) return null;
+  const f = frame - from;
+  const s = spring({ frame: f, fps, config: { damping: 14 } });
+  const bob = Math.sin(f / 5) * 10;
+  return (
+    <AbsoluteFill style={{ background: `rgba(15,21,36,${0.9 * s})`, alignItems: "center", justifyContent: "center" }}>
+      <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 112, color: C.text, textAlign: "center", padding: "0 70px", lineHeight: 1.06,
+        transform: `scale(${0.8 + s * 0.2})`, opacity: s }}>{question}</div>
+      <div style={{ marginTop: 64, background: C.orange, color: "#fff", fontFamily: FONT, fontWeight: 900, fontSize: 66, padding: "24px 56px", borderRadius: 28,
+        transform: `scale(${spring({ frame: f - 10, fps, config: { damping: 8 } })})` }}>{prompt}</div>
+      <div style={{ marginTop: 34 + bob, width: 0, height: 0, borderLeft: "34px solid transparent", borderRight: "34px solid transparent",
+        borderTop: `44px solid ${C.orange}`, opacity: interpolate(f, [14, 22], [0, 1], clamp) }} />
+    </AbsoluteFill>
+  );
+};

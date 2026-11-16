@@ -3,19 +3,19 @@ import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { ThreeCanvas } from "@remotion/three";
 import * as THREE from "three";
-import { C, Caption, EndCard, Progress, Sfx, Voice, clamp, FONT } from "../kit";
+import { C, Caption, CommentCard, Progress, Sfx, Voice, clamp, FONT } from "../kit";
 
 const rnd = (i: number) => { const x = Math.sin(i * 127.1) * 43758.5453; return x - Math.floor(x); };
 const mix = (a: string, b: string, t: number) => "#" + new THREE.Color(a).lerp(new THREE.Color(b), t).getHexString();
 
 // beats (frames @30fps)
 // each beat is at least as long as its spoken line (see tools/tts.py output) plus a short breath
-const T = { burst: 80, valve: 175, tap: 270, warm: 350, end: 465, total: 565 };
+const T = { burst: 66, valve: 138, tap: 204, warm: 264, end: 350, total: 450 };
 
 const Scene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const frost = interpolate(frame, [5, 70], [0, 1], clamp) * interpolate(frame, [T.warm + 15, T.end - 15], [1, 0], clamp);
+  const frost = interpolate(frame, [3, 58], [0, 1], clamp) * interpolate(frame, [T.warm + 15, T.end - 15], [1, 0], clamp);
   const flow = interpolate(frame, [T.burst, T.burst + 6], [0, 1], clamp) * interpolate(frame, [T.valve + 40, T.valve + 75], [1, 0], clamp);
   const shake = frame >= T.burst && frame < T.burst + 18 ? (rnd(frame) - 0.5) * 0.35 * (1 - (frame - T.burst) / 18) : 0;
   // camera target slides between pipe (0), valve (+3.2), tap (-3.2), pipe (0)
@@ -96,7 +96,7 @@ const Scene: React.FC = () => {
 
 export const FrozenPipe: React.FC = () => {
   const frame = useCurrentFrame();
-  const temp = Math.round(interpolate(frame, [0, 65], [-4, -27], clamp));
+  const temp = Math.round(interpolate(frame, [0, 56], [-4, -27], clamp));
   return (
     <AbsoluteFill style={{ background: C.navy }}>
       <Scene />
@@ -105,11 +105,11 @@ export const FrozenPipe: React.FC = () => {
           color: "#9fd4ff", textShadow: "0 8px 0 rgba(0,0,0,.5)" }}>{temp}°C</div>
       ) : null}
       <Caption text="Tonight your pipes could do this" from={0} to={T.burst} size={120} />
-      <Caption text="BURST." from={T.burst} to={T.valve} size={230} sub="Every minute = more water damage" />
-      <Caption n={1} text="Shut off the main water valve" from={T.valve} to={T.tap} size={96} top={150} />
+      <Caption text="BURST." from={T.burst} to={T.valve} size={230} sub="Every minute = more damage" />
+      <Caption n={1} text="Shut off the main valve" from={T.valve} to={T.tap} size={96} top={150} />
       <Caption n={2} text="Open the nearest tap" from={T.tap} to={T.warm} size={104} top={150} />
-      <Caption n={3} text="Warm the pipe slowly" from={T.warm} to={T.end} size={104} top={150} sub="Hair dryer. Never a flame." />
-      <EndCard from={T.end} line1="Pipe still leaking?" line2="Post the job. Calgary plumbers send you estimates." />
+      <Caption n={3} text="Warm it slowly" from={T.warm} to={T.end} size={112} top={150} sub="Hair dryer. Never a flame." />
+      <CommentCard from={T.end} question="Ever had a pipe burst?" prompt="Tell us what happened" />
       <Voice name="frozen-pipe" starts={[0, T.burst, T.valve, T.tap, T.warm, T.end]} />
       {/* sound: tension while it freezes, a hit on the burst, then a cue for each action */}
       <Sfx name="riser" at={T.burst - 60} volume={0.35} />
