@@ -93,3 +93,8 @@ export const CommentCard: React.FC<{ from: number; question: string; prompt?: st
     </AbsoluteFill>
   );
 };
+
+/** One spoken clip (public/voice/<name>-<n>.wav) at an exact frame: for a line that must land on an action, or a clip used more than once. */
+export const VoiceClip: React.FC<{ name: string; n: number; at: number }> = ({ name, n, at }) => (
+  <Sequence from={Math.max(0, at)} layout="none"><Audio src={staticFile(`voice/${name}-${n}.wav`)} volume={1.9} /></Sequence>
+);

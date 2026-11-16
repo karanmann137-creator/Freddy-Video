@@ -10,7 +10,7 @@ SPEED per video.
 import os, sys, numpy as np, sherpa_onnx, soundfile as sf
 
 VOICE = int(os.environ.get("FREDDY_VOICE", "16"))   # 16 = am_michael
-SPEED = 1.05
+SPEED = 1.0    # natural rate; 1.05 sounded rushed to the owner (2026-11-16)
 D = os.path.join(os.environ.get("VOICE_DIR", os.path.expanduser("~/.cache/freddy-voice")), "kokoro-multi-lang-v1_0")
 
 def main():

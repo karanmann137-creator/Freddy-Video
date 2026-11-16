@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Builds the sound-effect kit in public/sfx/ from scratch (no downloaded or licensed audio).
+"""Builds the SHARED sound-effect kit in public/sfx/ from scratch (per-video sounds live in tools/sfx/<slug>.py and use tools/sfxlib.py).
+Original note: builds the kit (no downloaded or licensed audio).
 Run once after changing this file: python3 tools/make_sfx.py. The wav files are committed."""
 import numpy as np, soundfile as sf
 from scipy.signal import butter, lfilter

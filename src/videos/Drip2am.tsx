@@ -1,9 +1,10 @@
 // "The 2 a.m. drip" — entertainment type, painted: papercut. Pictures come from tools/art/paint_drip.py.
 import React from "react";
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { Caption, CommentCard, Progress, Sfx, Voice, clamp, FONT } from "../kit";
+import { Caption, CommentCard, Progress, Sfx, VoiceClip, clamp, FONT } from "../kit";
 
-const T = { tap: 82, weekend: 162, months: 252, bucket: 322, end: 407, total: 507 };
+// beats leave room to breathe: the voice starts 10 frames in and each line is followed by about 20 frames of quiet
+const T = { tap: 105, weekend: 230, months: 339, bucket: 417, end: 525, total: 638 };
 const art = (n: string) => staticFile(`art/drip/${n}.jpg`);
 const PAPER = "#f7f1e4";
 
@@ -54,9 +55,10 @@ export const Drip2am: React.FC = () => {
   const zoom = interpolate(frame, [0, T.tap], [1, 1.75], clamp);
   const night = interpolate(frame, [T.months, T.months + 40], [0.42, 0], clamp);     // dawn comes as the months flip
   const toBucket = interpolate(frame, [T.bucket - 6, T.bucket + 6], [0, 1], clamp);
+  const said = [T.tap + 8, T.tap + 44, T.tap + 80];                 // the three drips the voice counts out loud
   const bump = frame >= T.tap && frame < T.tap + 8 ? 1 + 0.04 * (1 - (frame - T.tap) / 8) : 1;
-  const dripsNight = [T.tap + 4, T.tap + 26, T.tap + 48, T.weekend + 20, T.weekend + 58];
-  const dripsBucket = [T.bucket + 14, T.bucket + 44];
+  const dripsNight = [...said, T.weekend + 34, T.weekend + 84, T.months + 50];
+  const dripsBucket = [T.bucket + 10, T.bucket + 84];
   return (
     <AbsoluteFill style={{ background: "#151d45" }}>
       {frame < T.tap ? (
@@ -76,20 +78,32 @@ export const Drip2am: React.FC = () => {
       )}
 
       <Caption text="It's 2 a.m." from={0} to={T.tap} size={150} sub="...then you hear it" />
-      <Caption text="DRIP. DRIP. DRIP." from={T.tap} to={T.weekend} size={132} top={230} />
+      {/* one more DRIP on screen each time a drop lands */}
+      <Caption text="DRIP." from={said[0] + 17} to={said[1] + 17} size={150} top={230} />
+      <Caption text="DRIP. DRIP." from={said[1] + 17} to={said[2] + 17} size={150} top={230} />
+      <Caption text="DRIP. DRIP. DRIP." from={said[2] + 17} to={T.weekend} size={132} top={230} />
       <Caption text={"“I'll fix it this weekend”"} from={T.weekend} to={T.months} size={98} top={210} />
       <Caption text="3 months ago." from={T.months} to={T.bucket} size={140} top={230} />
       <Caption text="Now there's a bucket." from={T.bucket} to={T.end} size={112} top={210} sub="And it's full." />
       <CommentCard from={T.end} question="Is this your house?" prompt="Comment if it is" />
 
-      <Voice name="drip" starts={[0, T.tap, T.weekend, T.months, T.bucket, T.end]} />
-      <Sfx name="riser" at={T.tap - 60} volume={0.3} />
-      <Sfx name="impact" at={T.tap} volume={0.7} />
-      {[...dripsNight, ...dripsBucket].map((s) => <Sfx key={s} name="pop" at={s + 17} volume={0.5} />)}
-      <Sfx name="whoosh" at={T.weekend + 6} volume={0.35} />
-      {[0, 1, 2].map((i) => <Sfx key={i} name="tick" at={T.months + 6 + i * 13} volume={0.5} />)}
-      <Sfx name="whoosh" at={T.bucket - 6} volume={0.4} />
-      <Sfx name="ding" at={T.end + 12} volume={0.4} />
+      {/* voice: each line starts 10 frames into its beat; "Drip." is one clip said on each landing */}
+      <VoiceClip name="drip" n={1} at={10} />
+      {said.map((d) => <VoiceClip key={d} name="drip" n={2} at={d + 15} />)}
+      <VoiceClip name="drip" n={3} at={T.weekend + 10} />
+      <VoiceClip name="drip" n={4} at={T.months + 10} />
+      <VoiceClip name="drip" n={5} at={T.bucket + 10} />
+      <VoiceClip name="drip" n={6} at={T.end + 10} />
+
+      {/* sound made for this video (tools/sfx/drip.py): a clock in a quiet house, water, paper */}
+      {Array.from({ length: 7 }).map((_, i) => <Sfx key={i} name={i % 2 ? "drip/tock" : "drip/tick"} at={i * 15} volume={0.22 + i * 0.04} />)}
+      <Sfx name="drip/thud" at={T.tap} volume={0.8} />
+      {dripsNight.map((d) => <Sfx key={d} name="drip/plink" at={d + 17} volume={0.5} />)}
+      {dripsBucket.map((d) => <Sfx key={d} name="drip/plunk" at={d + 17} volume={0.55} />)}
+      <Sfx name="drip/slide" at={T.weekend + 8} volume={0.4} />
+      {[0, 1, 2].map((i) => <Sfx key={i} name="drip/page" at={T.months + 6 + i * 13} volume={0.5} />)}
+      <Sfx name="drip/slide" at={T.bucket - 6} volume={0.4} />
+      <Sfx name="drip/chime" at={T.end + 6} volume={0.45} />
       <Progress />
     </AbsoluteFill>
   );
