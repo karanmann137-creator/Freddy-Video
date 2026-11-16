@@ -3,7 +3,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { ThreeCanvas } from "@remotion/three";
 import * as THREE from "three";
-import { C, Caption, EndCard, Progress, Voice, clamp, FONT } from "../kit";
+import { C, Caption, EndCard, Progress, Sfx, Voice, clamp, FONT } from "../kit";
 
 const rnd = (i: number) => { const x = Math.sin(i * 127.1) * 43758.5453; return x - Math.floor(x); };
 const mix = (a: string, b: string, t: number) => "#" + new THREE.Color(a).lerp(new THREE.Color(b), t).getHexString();
@@ -111,6 +111,14 @@ export const FrozenPipe: React.FC = () => {
       <Caption n={3} text="Warm the pipe slowly" from={T.warm} to={T.end} size={104} top={150} sub="Hair dryer. Never a flame." />
       <EndCard from={T.end} line1="Pipe still leaking?" line2="Post the job. Calgary plumbers send you estimates." />
       <Voice name="frozen-pipe" starts={[0, T.burst, T.valve, T.tap, T.warm, T.end]} />
+      {/* sound: tension while it freezes, a hit on the burst, then a cue for each action */}
+      <Sfx name="riser" at={T.burst - 60} volume={0.35} />
+      <Sfx name="impact" at={T.burst} volume={0.9} />
+      <Sfx name="spray" at={T.burst + 4} volume={0.3} />
+      <Sfx name="spray" at={T.burst + 50} volume={0.22} />
+      {[T.valve, T.tap, T.warm].map((f) => <Sfx key={f} name="whoosh" at={f - 4} volume={0.4} />)}
+      {[T.valve, T.tap, T.warm].map((f) => <Sfx key={"p" + f} name="pop" at={f + 2} volume={0.45} />)}
+      <Sfx name="ding" at={T.end + 12} volume={0.4} />
       <Progress />
     </AbsoluteFill>
   );

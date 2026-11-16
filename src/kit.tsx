@@ -66,3 +66,9 @@ export const Voice: React.FC<{ name: string; starts: number[] }> = ({ name, star
     ))}
   </>
 );
+
+/** One sound effect from public/sfx (made by tools/make_sfx.py), starting at frame `at`.
+ * Names: riser (2 s build-up; start it 60 frames before the reveal), impact, whoosh, pop, ding, tick, spray, glitch. */
+export const Sfx: React.FC<{ name: string; at: number; volume?: number }> = ({ name, at, volume = 0.5 }) => (
+  <Sequence from={Math.max(0, at)} layout="none"><Audio src={staticFile(`sfx/${name}.wav`)} volume={volume} /></Sequence>
+);
