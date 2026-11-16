@@ -3,13 +3,14 @@ import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { ThreeCanvas } from "@remotion/three";
 import * as THREE from "three";
-import { C, Caption, EndCard, Progress, clamp, FONT } from "../kit";
+import { C, Caption, EndCard, Progress, Voice, clamp, FONT } from "../kit";
 
 const rnd = (i: number) => { const x = Math.sin(i * 127.1) * 43758.5453; return x - Math.floor(x); };
 const mix = (a: string, b: string, t: number) => "#" + new THREE.Color(a).lerp(new THREE.Color(b), t).getHexString();
 
 // beats (frames @30fps)
-const T = { burst: 80, valve: 150, tap: 245, warm: 335, end: 430, total: 510 };
+// each beat is at least as long as its spoken line (see tools/tts.py output) plus a short breath
+const T = { burst: 80, valve: 175, tap: 270, warm: 350, end: 465, total: 565 };
 
 const Scene: React.FC = () => {
   const frame = useCurrentFrame();
@@ -109,6 +110,7 @@ export const FrozenPipe: React.FC = () => {
       <Caption n={2} text="Open the nearest tap" from={T.tap} to={T.warm} size={104} top={150} />
       <Caption n={3} text="Warm the pipe slowly" from={T.warm} to={T.end} size={104} top={150} sub="Hair dryer. Never a flame." />
       <EndCard from={T.end} line1="Pipe still leaking?" line2="Post the job. Calgary plumbers send you estimates." />
+      <Voice name="frozen-pipe" starts={[0, T.burst, T.valve, T.tap, T.warm, T.end]} />
       <Progress />
     </AbsoluteFill>
   );

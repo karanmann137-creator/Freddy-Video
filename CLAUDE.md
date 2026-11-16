@@ -23,7 +23,13 @@ The first tests were rejected because they had "nothing to do with the subject m
 - 3D goes inside `<ThreeCanvas width={1080} height={1920}>` from `@remotion/three`. Visible width at the subject is narrow (portrait), so keep the subject within about 3.5 units wide at 10 units from the camera, or move the scene under a fixed camera as FrozenPipe does.
 - Always render 5 or 6 single frames across the video and LOOK at them before rendering the full video. Fix anything off-frame, overlapping the captions or unreadable.
 - Rendering uses the system Chrome; Remotion's own browser download is blocked in this environment.
-- No sound yet.
+
+## Voiceover (owner asked for one consistent voice, 2026-11-15)
+- Every video is narrated by the same free local voice. Once per workspace run `tools/setup-voice.sh` (about 350 MB from GitHub).
+- Write one spoken line per beat: a natural sentence version of that beat's caption, short enough to say in the beat. Say the site as "Freddy Fix It dot C A".
+- `python3 tools/tts.py <slug> "line 1" "line 2" ...` writes `public/voice/<slug>-N.wav` and prints each line's length in frames. Make every beat at least that long plus about 10 frames, then add `<Voice name="<slug>" starts={[...beat start frames]} />` from the kit. FrozenPipe shows the pattern.
+- Never change `VOICE` or `SPEED` in tools/tts.py for one video; the voice must match across all videos. Commit the wav files.
+- No music is mixed into the file. Do not add copyrighted songs.
 
 ## Publishing
 - The repo's real name is `Freddy-Video` (capital F and V); the raw link is case-sensitive.

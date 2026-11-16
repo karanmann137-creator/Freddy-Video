@@ -1,6 +1,6 @@
 // Shared pieces every video can use: brand colours, captions, end card.
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 
 export const C = { navy: "#1a2236", deep: "#0f1524", orange: "#ea6b14", text: "#f0f4ff" };
 export const FONT = "Arial Black, Arial, sans-serif";
@@ -57,3 +57,12 @@ export const EndCard: React.FC<{ from: number; line1: string; line2: string }> =
     </AbsoluteFill>
   );
 };
+
+/** Plays public/voice/<name>-<n>.wav starting at each frame in `starts` (made by tools/tts.py). */
+export const Voice: React.FC<{ name: string; starts: number[] }> = ({ name, starts }) => (
+  <>
+    {starts.map((f, i) => (
+      <Sequence key={i} from={f + 4} layout="none"><Audio src={staticFile(`voice/${name}-${i + 1}.wav`)} volume={1.9} /></Sequence>
+    ))}
+  </>
+);
