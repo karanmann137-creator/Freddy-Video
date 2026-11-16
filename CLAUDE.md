@@ -33,6 +33,13 @@ The first tests were rejected because they had "nothing to do with the subject m
 - Always render 5 or 6 single frames across the video and LOOK at them before rendering the full video. Fix anything off-frame, overlapping the captions or unreadable.
 - Rendering uses the system Chrome; Remotion's own browser download is blocked in this environment.
 
+## Painted scenes (drawing library, installed 2026-11-16 at the owner's request)
+- `vendor/claude-drawing/` is a copy of github.com/cloveric/claude-drawing-skill (MIT): a Python library that paints illustrations in code, 83 styles (papercut, watercolor, gouache, linocut, blueprint, isometric, storybook, stainedglass, cartoon, lowpoly, pixelart and more; one module per style in `lib/`). No image model, no keys, no cost. Needs `pip install --break-system-packages numpy Pillow`.
+- Use it when the script's `visual_style` family starts with `painted:` (for example `painted: papercut / winter street`). It makes still pictures, so the motion still comes from Remotion: paint the scene (and, where useful, the same scene in a second state, such as before and after), save PNG or JPG under `public/art/<slug>/`, and move them in the video with pans, zooms, cross-fades and 2D or 3D objects on top. Running an example with `--stages DIR` writes build-up snapshots that can be played as a draw-on reveal.
+- `vendor/claude-drawing/SKILL.md` is the manual, in Chinese, about 3,100 lines. Do NOT read it all. Read the workflow section (lines 190 to 205), then search it for the one style module you are using, and open the matching file in `vendor/claude-drawing/examples/` or `lib/` for the calls. Paint at 1080x1920.
+- A picture takes about a minute to render and usually two or three tries. Budget: at most 3 painted pictures per video. Look at every picture before using it. The owner's rules still apply: the picture is the subject, no other company's name or logo, no real people.
+- Do not edit files under `vendor/`.
+
 ## Voiceover (owner asked for one consistent voice, 2026-11-15)
 - Every video is narrated by the same free local voice. Once per workspace run `tools/setup-voice.sh` (about 350 MB from GitHub).
 - Write one spoken line per beat: a natural sentence version of that beat's caption, up to about 12 words. Never say the website; say the business name only in a comparison video, once.
