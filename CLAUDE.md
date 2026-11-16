@@ -18,12 +18,13 @@ The first tests were rejected because they had "nothing to do with the subject m
 5. Captions: at most 9 words on screen, heavy sans (`FONT`), top third of the frame, subject in the middle.
 6. **End on a question, not a pitch.** Close with `CommentCard`: a question the viewer wants to answer in the comments. Do not say or show the business name, the website, "post a job" or "join us" anywhere in the video. The owner wants the next step to feel like the viewer's own idea; the account name on the post is the only branding.
 
-## Pacing (owner asked for tighter format, 2026-11-15)
-- 13 to 20 seconds total. Hook lands by 2.2 s. No beat longer than 3 s; steps run 2 to 2.5 s each.
-- Shape: hook (what could happen) -> the twist or the cost (the reveal, biggest sound) -> 2 to 4 fast payoff beats -> question card (about 3 s).
+## Pacing (owner's call, 2026-11-15: the 19-second cut beat the 15-second one)
+- 17 to 22 seconds total. Hook lands by about 2.5 s. Beats run 2.5 to 3.5 s; let a line breathe rather than rushing it.
+- Shape: hook (what could happen) -> the twist or the cost (the reveal, biggest sound) -> 2 to 4 payoff beats -> question card (about 3 s).
 - Something must already be moving on frame 1. Change the picture (camera move, new object, colour shift) at every beat.
-- Spoken lines are 8 words or fewer so the voice never drags a beat out. The on-screen caption is shorter than the spoken line.
+- Spoken lines are full natural sentences, up to about 12 words. The on-screen caption is shorter than the spoken line.
 - Most people watch with the sound off: the hook must work from the caption and picture alone.
+- FrozenPipe.tsx is the pacing reference.
 
 ## Technical notes
 - Use `useCurrentFrame()` for all motion. No `Math.random()` (use a seeded function like `rnd` in FrozenPipe), no CSS animations, no timers: frames render out of order.
@@ -33,7 +34,7 @@ The first tests were rejected because they had "nothing to do with the subject m
 
 ## Voiceover (owner asked for one consistent voice, 2026-11-15)
 - Every video is narrated by the same free local voice. Once per workspace run `tools/setup-voice.sh` (about 350 MB from GitHub).
-- Write one spoken line per beat: a natural sentence version of that beat's caption, 8 words or fewer. Never say the business name or website.
+- Write one spoken line per beat: a natural sentence version of that beat's caption, up to about 12 words. Never say the business name or website.
 - `python3 tools/tts.py <slug> "line 1" "line 2" ...` writes `public/voice/<slug>-N.wav` and prints each line's length in frames. Make every beat at least that long plus about 10 frames, then add `<Voice name="<slug>" starts={[...beat start frames]} />` from the kit. FrozenPipe shows the pattern.
 - Never change `VOICE` or `SPEED` in tools/tts.py for one video; the voice must match across all videos. Commit the wav files.
 - No music is mixed into the file. Do not add copyrighted songs.
