@@ -59,11 +59,10 @@ The first tests were rejected because they had "nothing to do with the subject m
 - Keep effects under the voice (volume 0.2 to 0.5; one big moment may go to 0.9), and land each sound on the frame its action happens.
 - Commit the script and the wav files.
 
-## Trending audio (Instagram only, optional)
-- The playbook (Google Doc 1oeTWYRT0Dedy36xaiwEuA8YFFhWhAZnqZsdFJ_i6yVA, read only) has a section "THIS WEEK'S AUDIO" where the owner lists Instagram audio names.
-- Use one only if its mood suits this video (do not put an upbeat party track under a flood or a safety warning). If none fits, or the list is empty, skip it.
-- To use it, add to the Metricool post's instagramData: `"audioConfiguration": {"audioId": "<name exactly as listed>", "audioVolume": 12, "videoVolume": 100}` so it sits quietly under the voice. If Metricool rejects the post because of the audio, schedule it again once without audioConfiguration and say so in the report. Never mix such a track into the video file.
-
-## Publishing
-- The repo's real name is `Freddy-Video` (capital F and V); the raw link is case-sensitive.
-- Finished videos are committed straight to `main` so the public link works. Metricool copies the file when a post is scheduled (confirmed 2026-11-15).
+## Publishing (changed 2026-11-16: Buffer posts to Instagram, Facebook and TikTok; Metricool posts to YouTube only)
+- The repo's real name is `Freddy-Video` (capital F and V); the raw link is case-sensitive. Finished videos are committed straight to `main` so the public link works: `https://raw.githubusercontent.com/karanmann137-creator/Freddy-Video/main/published/<file>`.
+- Why two tools: Metricool's free plan publishes only 20 posts a month and counts each network separately, so it is kept for YouTube alone. Buffer's free plan covers the other three channels. Never send Instagram, Facebook or TikTok through Metricool.
+- **Buffer** (connector tools `mcp__Buffer__*`). Organization id `6afbac27e95176a0d38a8b81`. Channels: Instagram `6afbaca5ece6dfde5fef4e92`, Facebook `6afbad00ece6dfde5fef51c3`, TikTok `6afbb060ece6dfde5fef6cbb`. Call `create_post` once per channel with: `schedulingType: "automatic"`, `mode: "customScheduled"`, `dueAt` in local time with the offset that `get_account` reports in `currentTime`, `assets: [{"video": {"url": "<public link>"}}]`, the caption as `text`, and metadata: Instagram `{"instagram": {"type": "reel", "shouldShareToFeed": true}}`, Facebook `{"facebook": {"type": "reel"}}`, TikTok `{"tiktok": {"title": "<hook, 60 characters or fewer>"}}`. For a draft the owner must approve, add `saveToDraft: true`. Never use `shareNow`.
+- **Metricool** (YouTube only): brand/blog id 8096106, timezone America/Edmonton, `providers: [{"network": "youtube"}]`, `youtubeData` type `short`, `madeForKids` false, title of 60 characters or fewer, `draft` true or false as the task says.
+- The same time on all four. If one channel fails, schedule the others, do not retry more than once, and report which failed and the error text.
+- Trending audio cannot be attached through Buffer, so it is not in use for now; ignore the playbook's THIS WEEK'S AUDIO section.
