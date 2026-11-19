@@ -65,8 +65,8 @@ def main(path):
         print("(Pillow not installed; skipped the movement check)")
 
     print(f"length: {dur:.1f} s")
-    if not 28 <= dur <= 35.5:
-        problems.append(f"length {dur:.1f} s is outside 28 to 35 s")
+    if not 18 <= dur <= 121:
+        problems.append(f"length {dur:.1f} s is outside about 20 s to 2 minutes")
 
     if not has_audio:
         problems.append("no audio track")

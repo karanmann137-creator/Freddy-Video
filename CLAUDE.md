@@ -30,11 +30,12 @@ What went wrong in that video, so it is not repeated:
 - Read `.claude/skills/remotion-best-practices/SKILL.md` and, for the parts you use, the files in `.claude/skills/remotion-markup/` (3d.md, timing.md, transitions.md, sequencing.md, sfx.md, audio.md). These are Remotion's own agent skills (copied from github.com/remotion-dev/skills on 2026-11-19). `@remotion/transitions` and `@remotion/motion-blur` are installed.
 - Before rendering the full video, put the 6 check frames side by side and ask: would a stranger know what this is about from frame 1? Is any frame mostly empty? Is anything floating? Fix those first.
 
-## Pacing (owner, 2026-11-19: longer videos, with the voice filling them; replaces the 17 to 22 s rule)
-- 28 to 35 seconds total. Hook lands by about 2.5 s. Beats run 3 to 5 s.
-- Shape: hook moment -> the twist or the cost (the reveal, biggest sound) -> 3 to 5 payoff beats -> question card (about 4 s).
+## Pacing (owner, 2026-11-19: the story sets the length, up to 2 minutes; replaces the 17 to 22 s and 28 to 35 s rules)
+- No target length. The video is as long as the script takes to tell at a natural pace: at least about 20 s, at most 2 minutes. **Never shorten, cut, reword or rush a spoken line, squeeze the gaps, or pad with held shots, to reach a length.** Use the script's lines exactly as written. If the story seems too long, say so in the report; don't fix it by cutting.
+- Hook lands by about 2.5 s. Beats run 3 to 5 s, and the picture must keep changing however long the video runs: a long video needs more shots, not longer ones.
+- Shape: hook moment -> the twist or the cost (the reveal, biggest sound) -> as many payoff beats as the script has -> question card (about 4 s).
 - Something must already be moving on frame 1. Change the picture (camera move, new object, colour shift) at every beat.
-- About 8 to 11 spoken lines; each a natural sentence of up to about 14 words. The voice says what the picture can't (the why, the Calgary detail, what you'd hear, what waiting costs); it never just reads the caption aloud. The on-screen caption is the short version.
+- As many spoken lines as the script has; each one breath (usually 5 to 15 words). The voice says what the picture can't (the why, the Calgary detail, what you'd hear, what waiting costs); it never just reads the caption aloud. The on-screen caption is the short version.
 - Most people watch with the sound off: the hook must work from the caption and picture alone.
 - FrozenPipe.tsx is the reference for the hook and the reveal; it is shorter than the new length, so don't copy its timing.
 
@@ -58,7 +59,7 @@ What went wrong in that video, so it is not repeated:
 - Never change `VOICE` or `SPEED` in tools/tts.py; the voice must match across all videos. Commit the wav files.
 - The owner found a tightly packed voiceover "rushed" with "unnatural pacing". So:
   - The voice should be speaking for most of the video (roughly three quarters of it), so the video never sits in silence. Leave about 12 to 18 frames between lines, a longer pause (about 30 frames) only before the reveal and before the closing question. Beat length = line length + 15 to 25 frames.
-  - Write lines the way a person says them, with commas and "..." where a breath belongs ("It's two a.m... and then, you hear it."). One idea per line, up to about 14 words.
+  - The script's lines are already written to be spoken (the library's "How the voice should sound"). Use them as written. Only these changes are allowed, and only so the voice reads them right: numbers, times and units spelled the way they're said ("minus thirty", "two in the morning", "forty percent"), abbreviations and symbols written out (a.m., %, °C, &), and a comma or "..." added where a breath belongs. Never change the wording or meaning.
   - A word that belongs to an action (a count, "Drip.", "Crack.") is its own clip, placed on the action with `<VoiceClip name n at />`, and reused for each repeat. Never have the voice rattle off "Drip. Drip. Drip." in one line while the picture does something else.
   - `<Voice name starts />` places clips 1..N in order (FrozenPipe); `<VoiceClip />` places one clip at an exact frame (Drip2am).
 - Never say the website; say the business name only in a comparison video, once.
