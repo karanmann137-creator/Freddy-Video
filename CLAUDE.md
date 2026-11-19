@@ -16,16 +16,27 @@ The first tests were rejected because they had "nothing to do with the subject m
 3. **Something moves every beat**: each caption has a matching action on screen (valve turns, water stops).
 4. **The look follows the script's `visual_style`** ("family / twist", for example "toon-3d / night scene"). The playbook's STYLE ROTATION decides when a family is new and when a winning one returns. A returning family must get its twist (new setting, palette or camera) so it never looks like a repeat of an earlier video; a new family must look unlike everything in `src/videos`. Check the playbook's STYLE REFERENCES for looks the owner has shown us. Keep the font, captions and closing card from the kit. Never copy a competitor's look, a named brand's toys or characters, or another creator's exact video.
 5. Captions: at most 9 words on screen, heavy sans (`FONT`), top third of the frame, subject in the middle.
-6. **End on the type's ask.** Close with `CommentCard` using the script's closing line. How much a video may sell depends on its type (the script row's `format` column), following the conversion ladder in the "Hook and script library" Google Doc (id 1JOtExo7A49dcvSBhRp2XMemdTkLcwj_LzKoun2B6mhM): entertainment and trade-life never mention the business; helpful, diy-or-pro, red-flags and pro-tip never name it in the video (the caption carries a soft call to act); comparison and recruit name Freddy Fix It once, using only what the playbook's WHAT WE CAN CLAIM allows. Never show the website on screen, and never add a claim, number or guarantee the script does not have.
+6. **End on the type's ask.** Close with `CommentCard` using the script's closing line. How much a video may sell depends on its type (the script row's `format` column), following the conversion ladder in the "Hook and script library" Google Doc (id 1ZwGoibq3ojs0bLlpUcp9V9BgvwEyNocJzpumWMrU6iA): entertainment and trade-life never mention the business; helpful, diy-or-pro, red-flags and pro-tip never name it in the video (the caption carries a soft call to act); comparison and recruit name Freddy Fix It once, using only what the playbook's WHAT WE CAN CLAIM allows. Never show the website on screen, and never add a claim, number or guarantee the script does not have.
 7. Never name or show another company, app, website or logo. Bad experiences are shown as things that happen to people.
 
-## Pacing (owner's call, 2026-11-15: the 19-second cut beat the 15-second one)
-- 17 to 22 seconds total. Hook lands by about 2.5 s. Beats run 2.5 to 3.5 s; let a line breathe rather than rushing it.
-- Shape: hook (what could happen) -> the twist or the cost (the reveal, biggest sound) -> 2 to 4 payoff beats -> question card (about 3 s).
+## Looking finished, not sloppy (owner, 2026-11-19, after the furnace video "looked and sounded very sloppy")
+What went wrong in that video, so it is not repeated:
+- Each beat was a separate object on an empty flat background (a thermostat alone, a furnace alone), with the bottom half of the frame empty. **Build one place** (a basement, a kitchen, a van) and move the camera through it from beat to beat, so every shot has a floor, a wall, props and depth. Fill the frame: the subject sits in the middle third, the floor and surroundings fill the lower third.
+- Floating disembodied hands. **Show a person or nothing.** If a hand acts, an arm and body lead off-frame in the right direction.
+- The hook frame was a person sitting still. **Frame 1 shows the hook moment already in motion** (see the library's hook types).
+- Captions with a fading second line that looked misaligned. Use `Caption` as the kit draws it; don't add your own extra text lines next to it.
+- About 20 synthetic sound effects in 24 seconds, many stacked. **Fewer, better sounds:** one room tone or ambience bed under the whole video, then a sound only on the 4 to 6 actions that matter, never two at once, always under the voice.
+- **3D uses `Stage` from `src/stage3d.tsx`** (soft studio light from an in-code environment, contact shadows, fog and a vignette), with `meshStandardMaterial` or `meshPhysicalMaterial` and rounded shapes (`RoundedBox` from `@react-three/drei`), never flat-coloured basic materials. `@react-three/drei` is installed for this (`RoundedBox`, `Text3D`, `Float`, `useTexture` with local files). Do not use `@react-three/postprocessing`: it renders black inside Remotion's ThreeCanvas here.
+- Read `.claude/skills/remotion-best-practices/SKILL.md` and, for the parts you use, the files in `.claude/skills/remotion-markup/` (3d.md, timing.md, transitions.md, sequencing.md, sfx.md, audio.md). These are Remotion's own agent skills (copied from github.com/remotion-dev/skills on 2026-11-19). `@remotion/transitions` and `@remotion/motion-blur` are installed.
+- Before rendering the full video, put the 6 check frames side by side and ask: would a stranger know what this is about from frame 1? Is any frame mostly empty? Is anything floating? Fix those first.
+
+## Pacing (owner, 2026-11-19: longer videos, with the voice filling them; replaces the 17 to 22 s rule)
+- 28 to 35 seconds total. Hook lands by about 2.5 s. Beats run 3 to 5 s.
+- Shape: hook moment -> the twist or the cost (the reveal, biggest sound) -> 3 to 5 payoff beats -> question card (about 4 s).
 - Something must already be moving on frame 1. Change the picture (camera move, new object, colour shift) at every beat.
-- Spoken lines are full natural sentences, up to about 12 words. The on-screen caption is shorter than the spoken line.
+- About 8 to 11 spoken lines; each a natural sentence of up to about 14 words. The voice says what the picture can't (the why, the Calgary detail, what you'd hear, what waiting costs); it never just reads the caption aloud. The on-screen caption is the short version.
 - Most people watch with the sound off: the hook must work from the caption and picture alone.
-- FrozenPipe.tsx is the pacing reference.
+- FrozenPipe.tsx is the reference for the hook and the reveal; it is shorter than the new length, so don't copy its timing.
 
 ## Technical notes
 - Use `useCurrentFrame()` for all motion. No `Math.random()` (use a seeded function like `rnd` in FrozenPipe), no CSS animations, no timers: frames render out of order.
@@ -45,8 +56,8 @@ The first tests were rejected because they had "nothing to do with the subject m
 - `python3 tools/tts.py <slug> "line 1" "line 2" ...` writes `public/voice/<slug>-N.wav` and prints each line's length in frames.
 - Never change `VOICE` or `SPEED` in tools/tts.py; the voice must match across all videos. Commit the wav files.
 - The owner found a tightly packed voiceover "rushed" with "unnatural pacing". So:
-  - Start each line about 10 frames into its beat, and leave at least 20 frames of quiet after it before the next line. Beat length = line length + 30 or more.
-  - Write lines the way a person says them, with commas and "..." where a breath belongs ("It's two a.m... and then, you hear it."). One idea per line, up to about 12 words.
+  - The voice should be speaking for most of the video (roughly three quarters of it), so the video never sits in silence. Leave about 12 to 18 frames between lines, a longer pause (about 30 frames) only before the reveal and before the closing question. Beat length = line length + 15 to 25 frames.
+  - Write lines the way a person says them, with commas and "..." where a breath belongs ("It's two a.m... and then, you hear it."). One idea per line, up to about 14 words.
   - A word that belongs to an action (a count, "Drip.", "Crack.") is its own clip, placed on the action with `<VoiceClip name n at />`, and reused for each repeat. Never have the voice rattle off "Drip. Drip. Drip." in one line while the picture does something else.
   - `<Voice name starts />` places clips 1..N in order (FrozenPipe); `<VoiceClip />` places one clip at an exact frame (Drip2am).
 - Never say the website; say the business name only in a comparison video, once.
