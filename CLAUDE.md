@@ -42,6 +42,7 @@ What went wrong in that video, so it is not repeated:
 - Use `useCurrentFrame()` for all motion. No `Math.random()` (use a seeded function like `rnd` in FrozenPipe), no CSS animations, no timers: frames render out of order.
 - 3D goes inside `<ThreeCanvas width={1080} height={1920}>` from `@remotion/three`. Visible width at the subject is narrow (portrait), so keep the subject within about 3.5 units wide at 10 units from the camera, or move the scene under a fixed camera as FrozenPipe does.
 - Always render 5 or 6 single frames across the video and LOOK at them before rendering the full video. Fix anything off-frame, overlapping the captions or unreadable.
+- After the full render, run `python3 tools/check_video.py out/<file>.mp4 --fix`. It writes a contact sheet of the whole video (a frame every 1.5 s, `out/<file>-sheet.png`) and checks length, loudness, silent gaps and shots that hold too long. Open the sheet and look at every tile, fix what it and the printed PROBLEMS show (at most 2 rounds), and publish the `-fixed.mp4` it writes (audio levelled to -14 LUFS), not the raw render. Report anything you could not fix.
 - Rendering uses the system Chrome; Remotion's own browser download is blocked in this environment.
 
 ## Painted scenes (drawing library, installed 2026-11-16 at the owner's request)
