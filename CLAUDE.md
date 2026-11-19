@@ -32,7 +32,10 @@ What went wrong in that video, so it is not repeated:
 
 ## Pacing (owner, 2026-11-19: the story sets the length, up to 2 minutes; replaces the 17 to 22 s and 28 to 35 s rules)
 - No target length. The video is as long as the script takes to tell at a natural pace: at least about 20 s, at most 2 minutes. **Never shorten, cut, reword or rush a spoken line, squeeze the gaps, or pad with held shots, to reach a length.** Use the script's lines exactly as written. If the story seems too long, say so in the report; don't fix it by cutting.
-- Hook lands by about 2.5 s. Beats run 3 to 5 s, and the picture must keep changing however long the video runs: a long video needs more shots, not longer ones.
+- Hook lands by about 2.5 s. Beats run 3 to 5 s, and the picture keeps moving however long the video runs (owner, 2026-11-19):
+  - **Within a shot, move the camera** where it suits the moment: pan left or right, tilt up or down, zoom (push) in or pull out. Tie each move to the line: push in on the leak as the voice names it, tilt down from the ceiling stain to the bucket, pull out to show the whole flooded floor. Ease every move in and out (`interpolate` with an easing, or `spring`), never a jerk.
+  - **Cut to a new shot** when the story moves to a new place, object or moment in time.
+  - The frame never sits completely still for more than about 3 seconds, except a deliberate held beat before a punchline.
 - Shape: hook moment -> the twist or the cost (the reveal, biggest sound) -> as many payoff beats as the script has -> question card (about 4 s).
 - Something must already be moving on frame 1. Change the picture (camera move, new object, colour shift) at every beat.
 - As many spoken lines as the script has; each one breath (usually 5 to 15 words). The voice says what the picture can't (the why, the Calgary detail, what you'd hear, what waiting costs); it never just reads the caption aloud. The on-screen caption is the short version.

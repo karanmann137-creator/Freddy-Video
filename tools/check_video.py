@@ -54,12 +54,12 @@ def main(path):
                 diffs.append(ImageStat.Stat(ImageChops.difference(A.crop(box), B.crop(box))).mean[0])
             run_len, start = 0, 0
             for i, d in enumerate(diffs + [99]):
-                if d < 8.0:  # a slow drift of the same shot measures about 6 to 7
+                if d < 4.0:  # a pan or zoom measures about 6 and up; under 4 is a still frame
                     if run_len == 0: start = i
                     run_len += 1
                 else:
                     if run_len >= 3:
-                        problems.append(f"the same shot holds from {start*1.5:.1f} s to {(start+run_len)*1.5:.1f} s with only small movement; cut to a new angle or add a new action")
+                        problems.append(f"the picture sits still from {start*1.5:.1f} s to {(start+run_len)*1.5:.1f} s; add a pan or zoom tied to the line, or cut to a new shot")
                     run_len = 0
     except ImportError:
         print("(Pillow not installed; skipped the movement check)")
