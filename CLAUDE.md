@@ -59,7 +59,8 @@ What went wrong in that video, so it is not repeated:
 ## Voiceover (one consistent voice; pacing rules from the owner's feedback, 2026-11-16)
 - Every video is narrated by the same free local voice. Once per workspace run `tools/setup-voice.sh` (about 350 MB from GitHub).
 - `python3 tools/tts.py <slug> "line 1" "line 2" ...` writes `public/voice/<slug>-N.wav` and prints each line's length in frames.
-- Never change `VOICE` or `SPEED` in tools/tts.py; the voice must match across all videos. Commit the wav files.
+- Never change `BLEND`, `VOICE` or `SPEED` in tools/tts.py; the voice must match across all videos. Commit the wav files.
+- Since 2026-11-19 the voice is a Kokoro blend tuned to sound like the owner's narrator sample (`BLEND` in tools/tts.py). Videos made before that use plain am_michael; never mix the two inside one video.
 - The owner found a tightly packed voiceover "rushed" with "unnatural pacing". So:
   - The voice should be speaking for most of the video (roughly three quarters of it), so the video never sits in silence. Leave about 12 to 18 frames between lines, a longer pause (about 30 frames) only before the reveal and before the closing question. Beat length = line length + 15 to 25 frames.
   - The script's lines are already written to be spoken (the library's "How the voice should sound"). Use them as written. Only these changes are allowed, and only so the voice reads them right: numbers, times and units spelled the way they're said ("minus thirty", "two in the morning", "forty percent"), abbreviations and symbols written out (a.m., %, °C, &), and a comma or "..." added where a breath belongs. Never change the wording or meaning.
