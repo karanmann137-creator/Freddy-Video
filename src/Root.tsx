@@ -6,6 +6,7 @@ import { LeadsVsJobs, leadsVsJobsFrames } from "./videos/LeadsVsJobs";
 import { FurnaceQuiet, furnaceQuietFrames } from "./videos/FurnaceQuiet";
 import { Leak, leakFrames } from "./videos/Leak";
 import { FourWordQuote, fourWordQuoteFrames } from "./videos/FourWordQuote";
+import { Chinook, chinookFrames } from "./videos/Chinook";
 
 export const Root: React.FC = () => (
   <>
@@ -15,5 +16,6 @@ export const Root: React.FC = () => (
     <Composition id="Leak" component={Leak} width={1080} height={1920} fps={30} durationInFrames={leakFrames} />
     <Composition id="LeadsVsJobs" component={LeadsVsJobs} width={1080} height={1920} fps={30} durationInFrames={leadsVsJobsFrames} />
     <Composition id="FourWordQuote" component={FourWordQuote} width={1080} height={1920} fps={30} durationInFrames={fourWordQuoteFrames} />
+    <Composition id="Chinook" component={Chinook} width={1080} height={1920} fps={30} durationInFrames={chinookFrames} />
   </>
 );
