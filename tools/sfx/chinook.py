@@ -7,11 +7,28 @@ import numpy as np
 from sfxlib import *
 
 D = "public/sfx/chinook"
-# rain on a window: band-limited noise with a slow swell, looped (the last half second fades into the first)
-n = 10.0
-r = filt(noise(n, 21), 1800, 7500) * (0.75 + 0.25 * np.sin(2 * np.pi * 0.3 * t(n))) + 0.5 * filt(noise(n, 22), 400, 1400)
+# rain on a window: thousands of separate drop hits (not a hiss) over a soft low wash, looped (last half second fades into the first)
+n = 10.0; N = int(SR * n)
+g = rng(21)
+def pinkish(sec, seed):
+    x = np.fft.rfft(rng(seed).standard_normal(int(SR * sec))); f = np.maximum(np.arange(len(x)), 1)
+    return np.fft.irfft(x / np.sqrt(f), int(SR * sec))
+wash = filt(pinkish(n, 22), 300, 3500) * 3.0 * (0.8 + 0.2 * np.sin(2 * np.pi * 0.17 * t(n)))
+drops = np.zeros(N + SR)
+def hit(pos, amp, fc, ln, q):
+    m = int(SR * ln); tt = np.arange(m) / SR
+    burst = filt(g.standard_normal(m), fc * 0.7, min(fc * 1.5, 16000)) * np.exp(-tt * q)
+    tone_ = np.sin(2 * np.pi * fc * 0.6 * tt) * np.exp(-tt * q * 1.4) * 0.4
+    drops[pos:pos + m] += amp * (burst + tone_)
+for _ in range(int(n * 520)):                      # fine patter on the glass
+    hit(int(g.integers(0, N)), g.uniform(0.05, 0.22), g.uniform(2500, 7500), 0.012, g.uniform(350, 700))
+for _ in range(int(n * 70)):                       # bigger drops: rounder, lower
+    hit(int(g.integers(0, N)), g.uniform(0.25, 0.7), g.uniform(900, 2200), 0.03, g.uniform(150, 300))
+for _ in range(int(n * 6)):                        # a few heavy ones on the sill
+    hit(int(g.integers(0, N)), g.uniform(0.8, 1.2), g.uniform(500, 900), 0.06, g.uniform(60, 110))
+r = drops[:N] + wash
 k = int(SR * 0.5); r = r.copy(); r[:k] = r[:k] * np.linspace(0, 1, k) + r[-k:] * np.linspace(1, 0, k); r = r[:-k]
-save(f"{D}/rain.wav", r, 0.5)
+save(f"{D}/rain.wav", r, 0.6)
 # room tone: a fridge-hum under everything
 h = 10.0
 rt = 0.6 * np.sin(2 * np.pi * 60 * t(h)) + 0.3 * np.sin(2 * np.pi * 120 * t(h)) + 0.25 * filt(noise(h, 31), 80, 500)
