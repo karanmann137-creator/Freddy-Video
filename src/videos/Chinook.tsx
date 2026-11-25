@@ -375,8 +375,8 @@ import { Audio, Sequence } from "remotion";
 const RoomBed: React.FC = () => (
   <>
     {[0, 300, 600, 900, 1200, 1500, 1800].map((s) => <Sequence key={"r" + s} from={s} layout="none"><Audio src={staticFile("sfx/chinook/room.wav")} volume={0.14} /></Sequence>)}
-    {[0, 285, 570, 855].map((s) => <Sequence key={"w" + s} from={s} durationInFrames={s === 855 ? 215 : 300} layout="none">
-      <Audio src={staticFile("sfx/chinook/rain.wav")} volume={(f) => { const g = s + f; return 0.42 * interpolate(g, [B.turn - 10, B.turn + 30], [1, 0], clamp) * (g >= B.door && g < B.tired ? 1.3 : 1); }} /></Sequence>)}
+    {/* the owner's street-rain recording (2026-11-24), about 12 dB under the voice; it stops when the picture's rain stops */}
+    <Audio src={staticFile("sfx/chinook/rain-street.wav")} volume={(f) => 0.38 * interpolate(f, [B.turn - 10, B.turn + 30], [1, 0], clamp)} />
   </>
 );
 
